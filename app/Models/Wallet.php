@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Wallet extends Model
 {
     use HasFactory;
+
+    public function hasBalance(float $value): bool
+    {
+        return (float)$this->value >= $value;
+    }
 }
