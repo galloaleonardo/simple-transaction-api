@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
-use Database\Seeders\UserTypeSeed;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Model
 {
     use HasFactory;
+
+    public const PERSON = 'person';
+    private const COMPANY = 'company';
 
     /**
      * The attributes that are mass assignable.
@@ -25,17 +28,23 @@ class User extends Model
      *
      * @var array
      */
-    protected $hidden = [
-        'password'
-    ];
+    protected $hidden
+        = [
+            'password'
+        ];
 
-    public function userType()
+    public function isPerson(): bool
     {
-        return $this->belongsTo(UserType::class, 'user_type_id', 'id');
+        return $this->user_type === self::PERSON;
     }
 
-    public function wallet()
+    public function isCompany(): bool
     {
-        return $this->belongsTo(Wallet::class, 'id', 'user_id');
+        return $this->user_type === self::COMPANY;
+    }
+
+    public function wallet(): ?HasOne
+    {
+        return $this->hasOne(Wallet::class, 'user_id', 'id');
     }
 }

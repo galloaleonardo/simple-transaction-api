@@ -12,7 +12,7 @@ class HasBalance implements Rule
     /**
      * Create a new rule instance.
      *
-     * @param int $payerId
+     * @param  int  $payerId
      */
     public function __construct(int $payerId)
     {
@@ -24,6 +24,7 @@ class HasBalance implements Rule
      *
      * @param  string  $attribute
      * @param  mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)

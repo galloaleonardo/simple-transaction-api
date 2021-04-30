@@ -14,4 +14,6 @@ use \App\Http\Controllers\TransactionController;
 |
 */
 
-Route::post('transaction', [TransactionController::class, 'store'])->name('transaction');
+Route::post('transaction', [TransactionController::class, 'store'])->name(
+    'transaction'
+);

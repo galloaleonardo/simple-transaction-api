@@ -16,9 +16,26 @@ class TransactionRequest extends FormRequest
     public function rules()
     {
         return [
-            'payer_id' => ['bail', 'required', 'integer', 'exists:users,id', new IsPerson],
-            'payee_id' => ['bail', 'required', 'integer', 'exists:users,id', 'not_in:' . $this->request->get('payer_id')],
-            'value' => ['bail', 'required', 'min:0.1', new HasBalance($this->request->get('payer_id'))]
+            'payer_id' => [
+                'bail',
+                'required',
+                'integer',
+                'exists:users,id',
+                new IsPerson()
+            ],
+            'payee_id' => [
+                'bail',
+                'required',
+                'integer',
+                'exists:users,id',
+                'not_in:'.$this->request->get('payer_id')
+            ],
+            'value'    => [
+                'bail',
+                'required',
+                'min:0.1',
+                new HasBalance($this->request->get('payer_id'))
+            ]
         ];
     }
 }

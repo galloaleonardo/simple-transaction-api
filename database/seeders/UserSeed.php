@@ -17,8 +17,8 @@ class UserSeed extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'user_type_id' => 1,
             'full_name' => 'Timmy Jones',
+            'user_type' => 'person',
             'document' => 96790402080,
             'email' => 'timmy-jones@gmail.com',
             'password' => bcrypt(Str::random()),
@@ -27,8 +27,8 @@ class UserSeed extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'user_type_id' => 2,
             'full_name' => 'Amazon',
+            'user_type' => 'company',
             'document' => 39150561000102,
             'email' => 'support@amazon.com',
             'password' => bcrypt(Str::random()),

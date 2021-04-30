@@ -29,8 +29,9 @@ class TransactionController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param  TransactionRequest  $request
+     *
+     * @return JsonResponse
      */
     public function store(TransactionRequest $request): JsonResponse
     {
@@ -44,13 +45,17 @@ class TransactionController extends BaseController
             return $this->sendErrorResponse($e->getMessage());
         }
 
-        return $this->sendErrorResponse('Error saving transaction.', JsonResponse::HTTP_BAD_REQUEST);
+        return $this->sendErrorResponse(
+            'Error saving transaction.',
+            JsonResponse::HTTP_BAD_REQUEST
+        );
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -63,6 +68,7 @@ class TransactionController extends BaseController
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -74,6 +80,7 @@ class TransactionController extends BaseController
      * Remove the specified resource from storage.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

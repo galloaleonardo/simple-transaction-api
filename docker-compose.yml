@@ -48,7 +48,7 @@ services:
     volumes:
       - ./:/var/www/html
     working_dir: /var/www/html
-    entrypoint: ["php", "artisan"]
+    entrypoint: [ "php", "artisan" ]
     networks:
       - app
 

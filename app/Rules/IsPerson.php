@@ -22,13 +22,14 @@ class IsPerson implements Rule
      *
      * @param  string  $attribute
      * @param  mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value): bool
     {
         $user = User::find($value);
 
-        return $user->userType->isPerson();
+        return $user->isPerson();
     }
 
     /**
@@ -36,7 +37,7 @@ class IsPerson implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return 'The user must be a person.';
     }
