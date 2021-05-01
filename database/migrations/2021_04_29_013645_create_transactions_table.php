@@ -20,7 +20,7 @@ class CreateTransactionsTable extends Migration
             $table->unsignedBigInteger('payee_id');
             $table->foreign('payee_id')->references('id')->on('users');
             $table->float('value')->default(0);
-            $table->enum('status', ['pending', 'authorized', 'cancelled', 'finished'])->default('pending');
+            $table->enum('status', ['pending', 'authorized', 'cancelled', 'received', 'finished'])->default('pending');
             $table->timestamps();
         });
     }

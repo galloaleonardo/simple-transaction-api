@@ -13,6 +13,7 @@ class Transaction extends Model
     public const PENDING = 'pending';
     public const AUTHORIZED = 'authorized';
     public const CANCELLED = 'cancelled';
+    public const RECEIVED = 'received';
     public const FINISHED = 'finished';
 
     protected $guarded = [
@@ -40,4 +41,8 @@ class Transaction extends Model
         return $this->status === self::CANCELLED;
     }
 
+    public function received(): bool
+    {
+        return $this->status === self::RECEIVED;
+    }
 }

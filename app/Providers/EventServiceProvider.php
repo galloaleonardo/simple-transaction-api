@@ -2,16 +2,20 @@
 
 namespace App\Providers;
 
-use App\Events\TransactionCancelledEvent;
+use App\Events\PayeeTransactionNotificationCreatedEvent;
+use App\Events\TransactionAuthorizedEvent;
 use App\Events\TransactionCreatedEvent;
+use App\Events\TransactionReceivedEvent;
+use App\Listeners\AddPayeeBalanceListener;
 use App\Listeners\AuthorizeTransactionListener;
-use App\Listeners\ReturnsBalanceToWalletListener;
+use App\Listeners\CreatePayeeTransactionNotificationListener;
+use App\Listeners\FinishesTransactionListener;
+use App\Listeners\SendsNotificationPayeeMoneyReceivedListener;
+use App\Models\PayeeTransactionNotification;
 use App\Models\Transaction;
+use App\Observers\PayeeTransactionNotificationObserver;
 use App\Observers\TransactionObserver;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -23,6 +27,16 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         TransactionCreatedEvent::class => [
             AuthorizeTransactionListener::class,
+        ],
+        TransactionAuthorizedEvent::class => [
+            AddPayeeBalanceListener::class,
+        ],
+        TransactionReceivedEvent::class => [
+            FinishesTransactionListener::class,
+            CreatePayeeTransactionNotificationListener::class,
+        ],
+        PayeeTransactionNotificationCreatedEvent::class => [
+            SendsNotificationPayeeMoneyReceivedListener::class
         ]
     ];
 
@@ -34,5 +48,8 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Transaction::observe(TransactionObserver::class);
+        PayeeTransactionNotification::observe(
+            PayeeTransactionNotificationObserver::class
+        );
     }
 }

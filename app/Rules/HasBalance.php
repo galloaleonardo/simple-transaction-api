@@ -27,7 +27,7 @@ class HasBalance implements Rule
      *
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         $user = User::find($this->payerId);
 

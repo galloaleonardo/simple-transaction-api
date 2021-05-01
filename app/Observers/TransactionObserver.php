@@ -2,9 +2,10 @@
 
 namespace App\Observers;
 
+use App\Events\TransactionAuthorizedEvent;
 use App\Events\TransactionCreatedEvent;
+use App\Events\TransactionReceivedEvent;
 use App\Models\Transaction;
-use App\Models\Wallet;
 use App\Services\WalletService;
 
 class TransactionObserver
@@ -40,47 +41,15 @@ class TransactionObserver
     public function updated(Transaction $transaction)
     {
         if ($transaction->authorized()) {
-            //
+            TransactionAuthorizedEvent::dispatch($transaction);
         }
 
         if ($transaction->cancelled()) {
             $this->walletService->returnsPayerBalance($transaction);
         }
-    }
 
-    /**
-     * Handle the Transaction "deleted" event.
-     *
-     * @param  \App\Models\Transaction  $transaction
-     *
-     * @return void
-     */
-    public function deleted(Transaction $transaction)
-    {
-        //
-    }
-
-    /**
-     * Handle the Transaction "restored" event.
-     *
-     * @param  \App\Models\Transaction  $transaction
-     *
-     * @return void
-     */
-    public function restored(Transaction $transaction)
-    {
-        //
-    }
-
-    /**
-     * Handle the Transaction "force deleted" event.
-     *
-     * @param  \App\Models\Transaction  $transaction
-     *
-     * @return void
-     */
-    public function forceDeleted(Transaction $transaction)
-    {
-        //
+        if ($transaction->received()) {
+            TransactionReceivedEvent::dispatch($transaction);
+        }
     }
 }

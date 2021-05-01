@@ -28,4 +28,14 @@ class TransactionService
     {
         $this->transactionRepository->setCancelled($transaction->id);
     }
+
+    public function setReceived(Transaction $transaction)
+    {
+        $this->transactionRepository->setReceived($transaction->id);
+    }
+
+    public function setFinished(Transaction $transaction)
+    {
+        $this->transactionRepository->setFinished($transaction->id);
+    }
 }

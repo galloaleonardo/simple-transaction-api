@@ -37,4 +37,20 @@ class TransactionRepository
 
         $transaction->save();
     }
+
+    public function setReceived(int $id): void
+    {
+        $transaction = $this->model->findOrFail($id);
+        $transaction->status = $this->model::RECEIVED;
+
+        $transaction->save();
+    }
+
+    public function setFinished(int $id): void
+    {
+        $transaction = $this->model->findOrFail($id);
+        $transaction->status = $this->model::FINISHED;
+
+        $transaction->save();
+    }
 }
