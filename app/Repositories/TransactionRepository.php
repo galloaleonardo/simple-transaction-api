@@ -21,4 +21,20 @@ class TransactionRepository
 
         return [];
     }
+
+    public function setAuthorized(int $id): void
+    {
+        $transaction = $this->model->findOrFail($id);
+        $transaction->status = $this->model::AUTHORIZED;
+
+        $transaction->save();
+    }
+
+    public function setCancelled(int $id): void
+    {
+        $transaction = $this->model->findOrFail($id);
+        $transaction->status = $this->model::CANCELLED;
+
+        $transaction->save();
+    }
 }

@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\TransactionCancelledEvent;
+use App\Events\TransactionCreatedEvent;
+use App\Listeners\AuthorizeTransactionListener;
+use App\Listeners\ReturnsBalanceToWalletListener;
+use App\Models\Transaction;
+use App\Observers\TransactionObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -15,9 +21,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
-        ],
+        TransactionCreatedEvent::class => [
+            AuthorizeTransactionListener::class,
+        ]
     ];
 
     /**
@@ -27,6 +33,6 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Transaction::observe(TransactionObserver::class);
     }
 }

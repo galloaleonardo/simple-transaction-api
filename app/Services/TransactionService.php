@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Transaction;
 use App\Repositories\TransactionRepository;
 
 class TransactionService
@@ -16,5 +17,15 @@ class TransactionService
     public function save(array $data): array
     {
         return $this->transactionRepository->save($data);
+    }
+
+    public function setAuthorized(Transaction $transaction)
+    {
+        $this->transactionRepository->setAuthorized($transaction->id);
+    }
+
+    public function setCancelled(Transaction $transaction)
+    {
+        $this->transactionRepository->setCancelled($transaction->id);
     }
 }
