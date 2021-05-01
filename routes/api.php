@@ -15,10 +15,6 @@ use \App\Http\Controllers\UserController;
 |
 */
 
-Route::get('transaction', [TransactionController::class, 'index'])->name(
-    'transaction.index'
-);
-
 Route::post('transaction', [TransactionController::class, 'store'])->name(
     'transaction.store'
 );

@@ -14,11 +14,6 @@ class TransactionService
         $this->transactionRepository = $transactionRepository;
     }
 
-    public function getAll(): array
-    {
-        return $this->transactionRepository->getAll();
-    }
-
     public function save(array $data): array
     {
         return $this->transactionRepository->save($data);
