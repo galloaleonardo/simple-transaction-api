@@ -13,16 +13,29 @@ class CreateTransactionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('transactions', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('payer_id');
-            $table->foreign('payer_id')->references('id')->on('users');
-            $table->unsignedBigInteger('payee_id');
-            $table->foreign('payee_id')->references('id')->on('users');
-            $table->float('value')->default(0);
-            $table->enum('status', ['pending', 'authorized', 'cancelled', 'received', 'finished'])->default('pending');
-            $table->timestamps();
-        });
+        Schema::create(
+            'transactions',
+            function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('payer_id');
+                $table->foreign('payer_id')->references('id')
+                    ->on('users');
+                $table->unsignedBigInteger('payee_id');
+                $table->foreign('payee_id')->references('id')
+                    ->on('users');
+                $table->float('value')->default(0);
+                $table->enum('status',
+                             [
+                                 'pending',
+                                 'authorized',
+                                 'cancelled',
+                                 'received',
+                                 'finished'
+                             ]
+                )->default('pending');
+                $table->timestamps();
+            }
+        );
     }
 
     /**

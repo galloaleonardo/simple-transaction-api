@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\TransactionController;
+use \App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,12 @@ use \App\Http\Controllers\TransactionController;
 |
 */
 
-Route::post('transaction', [TransactionController::class, 'store'])->name(
-    'transaction'
+Route::get('transaction', [TransactionController::class, 'index'])->name(
+    'transaction.index'
 );
+
+Route::post('transaction', [TransactionController::class, 'store'])->name(
+    'transaction.store'
+);
+
+Route::apiResource('users', UserController::class);

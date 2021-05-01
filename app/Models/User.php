@@ -11,7 +11,7 @@ class User extends Model
     use HasFactory;
 
     public const PERSON = 'person';
-    private const COMPANY = 'company';
+    public const COMPANY = 'company';
 
     /**
      * The attributes that are mass assignable.

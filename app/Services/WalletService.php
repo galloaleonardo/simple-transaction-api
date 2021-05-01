@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Transaction;
+use App\Models\User;
 use App\Repositories\WalletRepository;
 
 class WalletService
@@ -38,5 +39,9 @@ class WalletService
         $this->walletRepository->returnsPayerBalance($idWallet, $value);
     }
 
+    public function createWallet(User $user)
+    {
+        $this->walletRepository->create($user->id);
+    }
 
 }

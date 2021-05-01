@@ -13,8 +13,10 @@ use App\Listeners\FinishesTransactionListener;
 use App\Listeners\SendsNotificationPayeeMoneyReceivedListener;
 use App\Models\PayeeTransactionNotification;
 use App\Models\Transaction;
+use App\Models\User;
 use App\Observers\PayeeTransactionNotificationObserver;
 use App\Observers\TransactionObserver;
+use App\Observers\UserObserver;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -51,5 +53,6 @@ class EventServiceProvider extends ServiceProvider
         PayeeTransactionNotification::observe(
             PayeeTransactionNotificationObserver::class
         );
+        User::observe(UserObserver::class);
     }
 }

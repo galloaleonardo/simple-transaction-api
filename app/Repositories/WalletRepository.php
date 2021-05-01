@@ -36,4 +36,12 @@ class WalletRepository
 
         return $wallet->save();
     }
+
+    public function create(int $id): bool
+    {
+        $this->model->user_id = $id;
+        $this->model->value = 100;
+
+        return $this->model->save();
+    }
 }
