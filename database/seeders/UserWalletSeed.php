@@ -16,14 +16,14 @@ class UserWalletSeed extends Seeder
     {
         DB::table('wallets')->insert([
             'user_id' => 1,
-            'value' => 1025.87,
+            'value' => 1000,
             'created_at' => now(),
             'updated_at' => now()
         ]);
 
         DB::table('wallets')->insert([
             'user_id' => 2,
-            'value' => 15250.23,
+            'value' => 5000,
             'created_at' => now(),
             'updated_at' => now()
         ]);
