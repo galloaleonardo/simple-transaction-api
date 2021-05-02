@@ -69,7 +69,7 @@ class TransactionTest extends TestCase
         $walletAfterTransaction = $person->wallet->fresh()->value;
 
         $this->assertTrue(
-            $walletBeforeTransaction !== $walletAfterTransaction
+            $walletBeforeTransaction > $walletAfterTransaction
         );
     }
 
@@ -89,7 +89,25 @@ class TransactionTest extends TestCase
         $walletAfterCancelledTransaction = $person->wallet->fresh()->value;
 
         $this->assertTrue(
-            $walletWhenPendingTransaction !== $walletAfterCancelledTransaction
+            $walletWhenPendingTransaction < $walletAfterCancelledTransaction
+        );
+    }
+
+    public function test_payee_receives_money_when_transaction_success()
+    {
+        $person = PersonFactory::new()->create();
+        $company = CompanyFactory::new()->create();
+
+        $walletPayeeBeforeTransaction = $company->wallet->value;
+
+        Transaction::factory()->create(
+            ['payer_id' => $person->id, 'payee_id' => $company->id]
+        );
+
+        $walletPayeeAfterTransaction = $company->wallet->fresh()->value;
+
+        $this->assertTrue(
+            $walletPayeeBeforeTransaction < $walletPayeeAfterTransaction
         );
     }
 }
