@@ -9,6 +9,7 @@ class BaseController extends Controller
 {
     public function sendSuccessfulResponse(
         $result,
+        $code = 200,
         $message = 'Request received successfully.'
     ): JsonResponse {
         $response = [
@@ -17,7 +18,7 @@ class BaseController extends Controller
             'message' => $message,
         ];
 
-        return response()->json($response, JsonResponse::HTTP_CREATED);
+        return response()->json($response, $code);
     }
 
     public function sendErrorResponse(
@@ -30,7 +31,7 @@ class BaseController extends Controller
             'message' => $error,
         ];
 
-        if ( ! empty($errorMessages)) {
+        if (!empty($errorMessages)) {
             $response['data'] = $errorMessages;
         }
 

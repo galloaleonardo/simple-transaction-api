@@ -20,16 +20,21 @@ class AuthorizeTransactionService
 
     public function authorize(Transaction $transaction): void
     {
-        $response = Http::get(self::AUTHORIZATION_URL);
+        try {
+            $response = Http::get(self::AUTHORIZATION_URL);
 
-        if ($response->failed()) {
+            if ($response->failed()) {
+                $this->transactionService->setCancelled($transaction);
+                return;
+            }
+
+            if ($response->json()['message'] === self::AUTHORIZED_MESSAGE)
+            {
+                $this->transactionService->setAuthorized($transaction);
+                return;
+            }
+        } catch (\Exception $e) {
             $this->transactionService->setCancelled($transaction);
-            return;
-        }
-
-        if ($response->json()['message'] === self::AUTHORIZED_MESSAGE)
-        {
-            $this->transactionService->setAuthorized($transaction);
             return;
         }
 

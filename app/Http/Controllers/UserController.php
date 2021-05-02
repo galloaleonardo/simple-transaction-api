@@ -51,7 +51,10 @@ class UserController extends BaseController
 
         try {
             if ($data = $this->userService->save($user)) {
-                return $this->sendSuccessfulResponse($data);
+                return $this->sendSuccessfulResponse(
+                    $data,
+                    JsonResponse::HTTP_CREATED
+                );
             }
         } catch (\Exception $e) {
             return $this->sendErrorResponse($e->getMessage());

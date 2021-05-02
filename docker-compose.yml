@@ -60,6 +60,16 @@ services:
     networks:
       - app
 
+  test:
+    image: galloaleonardo/php-fpm-8.0.5:latest
+    container_name: test
+    volumes:
+      - ./:/var/www/html
+    working_dir: /var/www/html
+    entrypoint: [ "php", "artisan", "test" ]
+    networks:
+      - app
+
   mysql:
     image: mysql:5.7.32
     container_name: mysql

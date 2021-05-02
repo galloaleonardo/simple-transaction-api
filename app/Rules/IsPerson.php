@@ -29,6 +29,10 @@ class IsPerson implements Rule
     {
         $user = User::find($value);
 
+        if (!$user) {
+            return false;
+        }
+
         return $user->isPerson();
     }
 

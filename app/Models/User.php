@@ -29,7 +29,7 @@ class User extends Model
      * @var array
      */
     protected $hidden = [
-        'password'
+
     ];
 
     public function isPerson(): bool

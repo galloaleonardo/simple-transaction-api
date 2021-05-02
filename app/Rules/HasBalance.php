@@ -7,14 +7,14 @@ use Illuminate\Contracts\Validation\Rule;
 
 class HasBalance implements Rule
 {
-    private int $payerId;
+    private ?int $payerId;
 
     /**
      * Create a new rule instance.
      *
-     * @param  int  $payerId
+     * @param  ?int  $payerId
      */
-    public function __construct(int $payerId)
+    public function __construct(?int $payerId)
     {
         $this->payerId = $payerId;
     }

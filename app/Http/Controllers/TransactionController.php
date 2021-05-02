@@ -29,7 +29,10 @@ class TransactionController extends BaseController
 
         try {
             if ($data = $this->transactionService->save($transaction)) {
-                return $this->sendSuccessfulResponse($data);
+                return $this->sendSuccessfulResponse(
+                    $data,
+                    JsonResponse::HTTP_CREATED
+                );
             }
         } catch (\Exception $e) {
             return $this->sendErrorResponse($e->getMessage());

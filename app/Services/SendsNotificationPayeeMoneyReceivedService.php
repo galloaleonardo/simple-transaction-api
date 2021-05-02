@@ -22,17 +22,22 @@ class SendsNotificationPayeeMoneyReceivedService
 
     public function notify(PayeeTransactionNotification $transaction): void
     {
-        $response = Http::get(self::NOTIFICATION_URL);
+        try {
+            $response = Http::get(self::NOTIFICATION_URL);
 
-        if ($response->failed()) {
-            $this->payeeTransactionNotificationService->setNotSent(
-                $transaction
-            );
-            return;
-        }
+            if ($response->failed()) {
+                $this->payeeTransactionNotificationService->setNotSent(
+                    $transaction
+                );
+                return;
+            }
 
-        if ($response->json()['message'] === self::SENT_MESSAGE) {
-            $this->payeeTransactionNotificationService->setSent($transaction);
+            if ($response->json()['message'] === self::SENT_MESSAGE) {
+                $this->payeeTransactionNotificationService->setSent($transaction);
+                return;
+            }
+        } catch (\Exception $e) {
+            $this->payeeTransactionNotificationService->setNotSent($transaction);
             return;
         }
 

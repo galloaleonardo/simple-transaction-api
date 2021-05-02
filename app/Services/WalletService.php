@@ -43,5 +43,4 @@ class WalletService
     {
         $this->walletRepository->create($user->id);
     }
-
 }
