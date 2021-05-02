@@ -2,24 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class User extends Authenticatable
+class User extends Model
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+
+    public const PERSON = 'person';
+    public const COMPANY = 'company';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
+    protected $guarded = [
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -28,16 +29,21 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function isPerson(): bool
+    {
+        return $this->user_type === self::PERSON;
+    }
+
+    public function isCompany(): bool
+    {
+        return $this->user_type === self::COMPANY;
+    }
+
+    public function wallet(): ?HasOne
+    {
+        return $this->hasOne(Wallet::class, 'user_id', 'id');
+    }
 }

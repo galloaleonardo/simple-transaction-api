@@ -2,10 +2,22 @@
 
 namespace App\Providers;
 
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use App\Events\PayeeTransactionNotificationCreatedEvent;
+use App\Events\TransactionAuthorizedEvent;
+use App\Events\TransactionCreatedEvent;
+use App\Events\TransactionReceivedEvent;
+use App\Listeners\AddPayeeBalanceListener;
+use App\Listeners\AuthorizeTransactionListener;
+use App\Listeners\CreatePayeeTransactionNotificationListener;
+use App\Listeners\FinishesTransactionListener;
+use App\Listeners\SendsNotificationPayeeMoneyReceivedListener;
+use App\Models\PayeeTransactionNotification;
+use App\Models\Transaction;
+use App\Models\User;
+use App\Observers\PayeeTransactionNotificationObserver;
+use App\Observers\TransactionObserver;
+use App\Observers\UserObserver;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -15,9 +27,19 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
+        TransactionCreatedEvent::class => [
+            AuthorizeTransactionListener::class,
         ],
+        TransactionAuthorizedEvent::class => [
+            AddPayeeBalanceListener::class,
+        ],
+        TransactionReceivedEvent::class => [
+            FinishesTransactionListener::class,
+            CreatePayeeTransactionNotificationListener::class,
+        ],
+        PayeeTransactionNotificationCreatedEvent::class => [
+            SendsNotificationPayeeMoneyReceivedListener::class
+        ]
     ];
 
     /**
@@ -27,6 +49,10 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Transaction::observe(TransactionObserver::class);
+        PayeeTransactionNotification::observe(
+            PayeeTransactionNotificationObserver::class
+        );
+        User::observe(UserObserver::class);
     }
 }
